@@ -41,4 +41,12 @@ Take a look at example folder. There are also 4 coach marks there. They are all 
       });
 ```
 
-Credits to [Iiro Krankka](https://iirokrankka.com/) by using his [FlutterMates](https://github.com/CodemateLtd/FlutterMates) in example
+#### Similar packages
+ * [super_tooltip](https://pub.dartlang.org/packages/super_tooltip) - add in overlay just a tip box with arrow
+ * [feature-discovery](https://medium.com/fluttery/flutter-challenge-feature-discovery-25718b9b1728) - implementation by Material Design guidence
+
+### Thanks
+ * [Simon Lightfoot](https://github.com/slightfoot) for help with soft edges of highlighted area
+ * [Thomas Burkhart](https://github.com/escamoteur) with publishing his package, so I was inspired and took a nice pattern using Overlay
+ * [Iiro Krankka](https://iirokrankka.com/) by using his [FlutterMates](https://github.com/CodemateLtd/FlutterMates) in example
+ 
