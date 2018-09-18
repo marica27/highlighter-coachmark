@@ -1,3 +1,7 @@
+## [0.0.2]
+
+* add demo gif tp README
+
 ## [0.0.1]
 
 * Coach Mark highlights target element and blurs background. 

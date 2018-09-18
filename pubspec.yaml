@@ -1,6 +1,6 @@
 name: highlighter_coachmark
 description: Coach Mark highlights target element and blurs background.
-version: 0.0.1
+version: 0.0.2
 author:  Marina Kuznetsova <marica.tim@gmail.com>
 homepage: https://github.com/marica27/highlighter-coachmark
 maintainer: Marina Kuznetsova (@marica27)
