@@ -39,4 +39,4 @@ Take a look at example folder. There are also 4 coach marks there. They are all 
       });
 ```
 
-Credits to [Iiro Krankka](https://iirokrankka.com/) by using his [FlutterMates](https://github.com/CodemateLtd/FlutterMates)
+Credits to [Iiro Krankka](https://iirokrankka.com/) by using his [FlutterMates](https://github.com/CodemateLtd/FlutterMates) in example
