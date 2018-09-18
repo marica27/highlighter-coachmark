@@ -6,6 +6,7 @@ feature discovery as in Material design or coach mark. This coach mark makes blu
 This coach mark makes blurred background and highlights desired element.
 
 A picture is worth a thousand words, so take a look at gif
+
 ![](https://github.com/marica27/highlighter-coachmark/blob/gh-pages/coachMarkDemo.gif)
 
 And a few tips from UX 
