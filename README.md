@@ -12,7 +12,7 @@ And a few tips from UX
 
 >To have their full effect, coach marks should focus on particularly innovative or unexpected elements. 
 
-##Usage
+## Usage
 Take a look at example folder. There are also 4 coach marks there. They are all presented in gif above
 ```dart
   CoachMark coachMark = CoachMark();
