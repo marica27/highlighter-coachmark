@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'dart:async';
 
 import 'package:example/ui/frienddetails/footer/friend_detail_footer.dart';

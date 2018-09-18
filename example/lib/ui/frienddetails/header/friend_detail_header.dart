@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:example/ui/frienddetails/header/diagonally_cut_colored_image.dart';
 import 'package:example/ui/friends/friend.dart';
-import 'package:meta/meta.dart';
 
 class FriendDetailHeader extends StatelessWidget {
   static const BACKGROUND_IMAGE = 'images/profile_header_background.png';
