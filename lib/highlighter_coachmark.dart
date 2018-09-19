@@ -44,7 +44,6 @@ import 'dart:ui' as ui;
 ///      });
 /// ```
 class CoachMark {
-
   CoachMark({this.bgColor = const Color(0xB2212121)});
 
   /// Global key to get an access for CoachMark's State

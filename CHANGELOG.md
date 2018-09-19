@@ -1,3 +1,6 @@
+## [0.0.3]
+*  fix description and formatting
+
 ## [0.0.2]
 
 * add demo gif tp README

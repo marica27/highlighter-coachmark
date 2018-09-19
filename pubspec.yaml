@@ -1,6 +1,6 @@
 name: highlighter_coachmark
-description: Coach Mark highlights target element and blurs background.
-version: 0.0.2
+description: Coach Mark shows provided tips or inctructions in overlay by blurring background and highlighting target element.
+version: 0.0.3
 author:  Marina Kuznetsova <marica.tim@gmail.com>
 homepage: https://github.com/marica27/highlighter-coachmark
 maintainer: Marina Kuznetsova (@marica27)
