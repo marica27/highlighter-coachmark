@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_range_slider/flutter_range_slider.dart';
+import 'package:flutter_range_slider/flutter_range_slider.dart' as rngslider;
 
 class SkillsShowcase extends StatelessWidget {
   static final GlobalKey sliderKey = GlobalObjectKey("sliderKey");
@@ -24,7 +24,7 @@ class SkillsShowcase extends StatelessWidget {
                         style: textTheme.body1
                             .copyWith(color: Colors.white70, fontSize: 16.0)))
                     ..add(
-                      RangeSlider(
+                      rngslider.RangeSlider(
                         min: 0.0,
                         max: 100.0,
                         lowerValue: 0.0,
@@ -40,7 +40,7 @@ class SkillsShowcase extends StatelessWidget {
                   style: textTheme.body1
                       .copyWith(color: Colors.white70, fontSize: 16.0)))
               ..add(
-                RangeSlider(
+                rngslider.RangeSlider(
                   min: 0.0,
                   max: 100.0,
                   lowerValue: 0.0,
@@ -55,7 +55,7 @@ class SkillsShowcase extends StatelessWidget {
                   style: textTheme.body1
                       .copyWith(color: Colors.white70, fontSize: 16.0)))
               ..add(
-                RangeSlider(
+                rngslider.RangeSlider(
                   min: 0.0,
                   max: 100.0,
                   lowerValue: 0.0,
