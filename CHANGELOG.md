@@ -1,3 +1,6 @@
+## [0.0.4]
+*  Adds `useBackdropFilter` property to set whether to use backdrop filter or not on background (particularly useful if you're having performance issues on lower end devices).
+
 ## [0.0.3]
 *  fix description and formatting
 
