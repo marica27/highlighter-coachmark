@@ -44,13 +44,21 @@ import 'dart:ui' as ui;
 ///      });
 /// ```
 class CoachMark {
-  CoachMark({this.bgColor = const Color(0xB2212121)});
+  CoachMark({
+    this.bgColor = const Color(0xB2212121),
+    this.useBackdropFilter = true,
+  });
+
 
   /// Global key to get an access for CoachMark's State
   GlobalKey<_HighlighterCoachMarkState> globalKey;
 
   /// Background color
   Color bgColor;
+
+  /// Defines if CoachMark should apply a backdrop filter to blurry the background.
+  /// Defaults to `true`.
+  bool useBackdropFilter;
 
   /// State visibility of CoachMark
   bool _isVisible = false;
@@ -111,6 +119,7 @@ class CoachMark {
                 markShape: markShape,
                 doClose: close,
                 children: children,
+                useBackdrop: useBackdropFilter,
               ),
         );
 
@@ -146,6 +155,7 @@ class _HighlighterCoachMarkWidget extends StatefulWidget {
     @required this.children,
     @required this.doClose,
     @required this.bgColor,
+    this.useBackdrop = true,
   }) : super(key: key);
 
   final Rect markRect;
@@ -153,6 +163,7 @@ class _HighlighterCoachMarkWidget extends StatefulWidget {
   final List<Widget> children;
   final VoidCallback doClose;
   final Color bgColor;
+  final bool useBackdrop;
 
   @override
   _HighlighterCoachMarkState createState() => new _HighlighterCoachMarkState();
@@ -215,17 +226,16 @@ class _HighlighterCoachMarkState extends State<_HighlighterCoachMarkWidget>
         builder: (BuildContext context, Widget child) {
           return Stack(
             children: <Widget>[
-              ClipPath(
-                clipper: clipper,
-                child: BackdropFilter(
-                  filter: ui.ImageFilter.blur(
-                      sigmaX: _blurAnimation.value,
-                      sigmaY: _blurAnimation.value),
-                  child: Container(
-                    color: Colors.transparent,
+              if (widget.useBackdrop)
+                ClipPath(
+                  clipper: clipper,
+                  child: BackdropFilter(
+                    filter: ui.ImageFilter.blur(sigmaX: _blurAnimation.value, sigmaY: _blurAnimation.value),
+                    child: Container(
+                      color: Colors.transparent,
+                    ),
                   ),
                 ),
-              ),
               _CoachMarkLayer(
                 behavior: HitTestBehavior.translucent,
                 onPointerDown: _onPointer,
