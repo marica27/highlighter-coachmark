@@ -1,12 +1,12 @@
 name: highlighter_coachmark
 description: Coach Mark shows provided tips or inctructions in overlay by blurring background and highlighting target element.
-version: 0.0.3
+version: 0.0.4
 author:  Marina Kuznetsova <marica.tim@gmail.com>
 homepage: https://github.com/marica27/highlighter-coachmark
 maintainer: Marina Kuznetsova (@marica27)
 
 environment:
-  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  sdk: ">=2.3.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -19,4 +19,3 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
