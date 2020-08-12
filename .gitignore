@@ -50,3 +50,4 @@ android/key.properties
 android/prodkey.properties
 web/firebase_init.js
 web/branch_init.js
+*.flutter_export_environment.sh
