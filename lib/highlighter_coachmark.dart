@@ -47,7 +47,7 @@ class CoachMark {
   CoachMark({
     this.bgColor = const Color(0xB2212121),
     this.rectBlurRadius = 8.0,
-    this.rectangleBorder = 0.3,
+    this.rectangleBorder = 0,
   });
 
   /// Global key to get an access for CoachMark's State
