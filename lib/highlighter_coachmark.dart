@@ -47,6 +47,7 @@ class CoachMark {
   CoachMark({
     this.bgColor = const Color(0xB2212121),
     this.rectBlurRadius = 8.0,
+    this.rectangleBorder = 0.3,
   });
 
   /// Global key to get an access for CoachMark's State
@@ -57,6 +58,9 @@ class CoachMark {
 
   /// Coachmark Blur Radius
   double rectBlurRadius;
+
+  /// boxshape.rectangle border
+  double rectangleBorder;
 
   /// State visibility of CoachMark
   bool _isVisible = false;
@@ -154,6 +158,7 @@ class _HighlighterCoachMarkWidget extends StatefulWidget {
     @required this.doClose,
     @required this.bgColor,
     @required this.rectBlurRadius,
+    this.rectangleBorder,
   }) : super(key: key);
 
   final List<Rect> markRectList;
@@ -162,6 +167,7 @@ class _HighlighterCoachMarkWidget extends StatefulWidget {
   final VoidCallback doClose;
   final Color bgColor;
   final double rectBlurRadius;
+  final double rectangleBorder;
 
   @override
   _HighlighterCoachMarkState createState() => new _HighlighterCoachMarkState();
@@ -370,6 +376,7 @@ class _CoachMarkPainter extends CustomPainter {
     @required this.rectList,
     @required this.shadow,
     this.clipperList,
+    this.rectangleBorder = 0,
     this.coachMarkShape = BoxShape.circle,
   });
 
@@ -377,6 +384,7 @@ class _CoachMarkPainter extends CustomPainter {
   final BoxShadow shadow;
   final List<_CoachMarkClipper> clipperList;
   final BoxShape coachMarkShape;
+  final double rectangleBorder;
 
   void paint(Canvas canvas, Size size) {
     if (rectList.isNotEmpty && clipperList.isNotEmpty) {
@@ -390,8 +398,8 @@ class _CoachMarkPainter extends CustomPainter {
         switch (coachMarkShape) {
           case BoxShape.rectangle:
             canvas.drawRRect(
-                RRect.fromRectAndRadius(
-                    rectList[i], Radius.circular(circle.width * 0.3)),
+                RRect.fromRectAndRadius(rectList[i],
+                    Radius.circular(circle.width * rectangleBorder)),
                 paint);
             break;
           case BoxShape.circle:
