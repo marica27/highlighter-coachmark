@@ -122,6 +122,7 @@ class CoachMark {
             markShape: markShape,
             doClose: close,
             children: children,
+            rectangleBorder: rectangleBorder,
           ),
         );
 
