@@ -47,7 +47,7 @@ class CoachMark {
   CoachMark({
     this.bgColor = const Color(0xB2212121),
     this.rectBlurRadius = 8.0,
-    this.rectangleBorder = 0,
+    this.rectangleBorder = 0.3,
   });
 
   /// Global key to get an access for CoachMark's State
@@ -376,7 +376,7 @@ class _CoachMarkPainter extends CustomPainter {
     @required this.rectList,
     @required this.shadow,
     this.clipperList,
-    this.rectangleBorder = 0,
+    this.rectangleBorder = 0.3,
     this.coachMarkShape = BoxShape.circle,
   });
 
