@@ -122,6 +122,7 @@ class CoachMark {
             markShape: markShape,
             doClose: close,
             children: children,
+            rectangleBorder: rectangleBorder,
           ),
         );
 
@@ -158,7 +159,7 @@ class _HighlighterCoachMarkWidget extends StatefulWidget {
     @required this.doClose,
     @required this.bgColor,
     @required this.rectBlurRadius,
-    this.rectangleBorder,
+    @required this.rectangleBorder,
   }) : super(key: key);
 
   final List<Rect> markRectList;
@@ -256,6 +257,7 @@ class _HighlighterCoachMarkState extends State<_HighlighterCoachMarkWidget>
                     ),
                     clipperList: getClippers(),
                     coachMarkShape: widget.markShape,
+                    rectangleBorder: widget.rectangleBorder,
                   ),
                 ),
               ),
