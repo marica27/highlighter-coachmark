@@ -1,11 +1,11 @@
 library highlighter_coachmark;
 
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/animation.dart';
-
 import 'dart:async';
 import 'dart:ui' as ui;
+
+import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 /// CoachMark blurs background of the whole screen and highlights target element.
 /// It does this in Overlay. So the whole screen is covered by CoachMark's layer.
@@ -44,13 +44,23 @@ import 'dart:ui' as ui;
 ///      });
 /// ```
 class CoachMark {
-  CoachMark({this.bgColor = const Color(0xB2212121)});
+  CoachMark({
+    this.bgColor = const Color(0xB2212121),
+    this.rectBlurRadius = 8.0,
+    this.rectangleBorder = 0.3,
+  });
 
   /// Global key to get an access for CoachMark's State
   GlobalKey<_HighlighterCoachMarkState> globalKey;
 
   /// Background color
   Color bgColor;
+
+  /// Coachmark Blur Radius
+  double rectBlurRadius;
+
+  /// boxshape.rectangle border
+  double rectangleBorder;
 
   /// State visibility of CoachMark
   bool _isVisible = false;
@@ -86,7 +96,7 @@ class CoachMark {
   void show({
     @required BuildContext targetContext,
     @required List<Widget> children,
-    @required Rect markRect,
+    @required List<Rect> markRectList,
     BoxShape markShape = BoxShape.circle,
     Duration duration,
     VoidCallback onClose,
@@ -105,13 +115,14 @@ class CoachMark {
     _overlayEntryBackground = _overlayEntryBackground ??
         new OverlayEntry(
           builder: (BuildContext context) => new _HighlighterCoachMarkWidget(
-                key: globalKey,
-                bgColor: bgColor,
-                markRect: markRect,
-                markShape: markShape,
-                doClose: close,
-                children: children,
-              ),
+            key: globalKey,
+            bgColor: bgColor,
+            rectBlurRadius: rectBlurRadius,
+            markRectList: markRectList,
+            markShape: markShape,
+            doClose: close,
+            children: children,
+          ),
         );
 
     OverlayState overlayState = Overlay.of(targetContext);
@@ -141,18 +152,22 @@ class CoachMark {
 class _HighlighterCoachMarkWidget extends StatefulWidget {
   _HighlighterCoachMarkWidget({
     Key key,
-    @required this.markRect,
+    @required this.markRectList,
     @required this.markShape,
     @required this.children,
     @required this.doClose,
     @required this.bgColor,
+    @required this.rectBlurRadius,
+    this.rectangleBorder,
   }) : super(key: key);
 
-  final Rect markRect;
+  final List<Rect> markRectList;
   final BoxShape markShape;
   final List<Widget> children;
   final VoidCallback doClose;
   final Color bgColor;
+  final double rectBlurRadius;
+  final double rectangleBorder;
 
   @override
   _HighlighterCoachMarkState createState() => new _HighlighterCoachMarkState();
@@ -161,7 +176,6 @@ class _HighlighterCoachMarkWidget extends StatefulWidget {
 class _HighlighterCoachMarkState extends State<_HighlighterCoachMarkWidget>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
-  Animation<double> _blurAnimation;
   Animation<double> _opacityAnimation;
 
   //Does reverse animation, called when coachMark is closing.
@@ -173,18 +187,8 @@ class _HighlighterCoachMarkState extends State<_HighlighterCoachMarkWidget>
   void initState() {
     super.initState();
     _controller = new AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
-    );
-    _blurAnimation = new Tween(begin: 0.0, end: 3.0).animate(
-      new CurvedAnimation(
-        parent: _controller,
-        curve: new Interval(
-          0.5,
-          1.0,
-          curve: Curves.ease,
-        ),
-      ),
     );
     _opacityAnimation = new Tween(begin: 0.0, end: 0.8).animate(
       new CurvedAnimation(
@@ -207,48 +211,50 @@ class _HighlighterCoachMarkState extends State<_HighlighterCoachMarkWidget>
 
   @override
   Widget build(BuildContext context) {
-    Rect position = widget.markRect;
-    final clipper = _CoachMarkClipper(position);
+    List<_CoachMarkClipper> getClippers() {
+      List<_CoachMarkClipper> clippers = [];
+
+      if (widget.markRectList != null && widget.markRectList.isNotEmpty) {
+        for (Rect markRect in widget.markRectList) {
+          final _CoachMarkClipper clip = _CoachMarkClipper(markRect);
+          clippers.add(clip);
+        }
+      }
+
+      return clippers;
+    }
 
     return AnimatedBuilder(
         animation: _controller,
         builder: (BuildContext context, Widget child) {
           return Stack(
             children: <Widget>[
-              ClipPath(
-                clipper: clipper,
-                child: BackdropFilter(
-                  filter: ui.ImageFilter.blur(
-                      sigmaX: _blurAnimation.value,
-                      sigmaY: _blurAnimation.value),
-                  child: Container(
-                    color: Colors.transparent,
-                  ),
-                ),
-              ),
               _CoachMarkLayer(
                 behavior: HitTestBehavior.translucent,
                 onPointerDown: _onPointer,
                 onPointerMove: _onPointer,
                 onPointerUp: _onPointer,
                 onPointerCancel: _onPointer,
-                markPosition: position,
+                markPosition: widget.markRectList[0],
                 child: CustomPaint(
                   child: Opacity(
-                      opacity: _opacityAnimation.value,
-                      child: Material(
-                          type: MaterialType.transparency,
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: widget.children,
-                          ))),
+                    opacity: _opacityAnimation.value,
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: widget.children,
+                      ),
+                    ),
+                  ),
                   painter: _CoachMarkPainter(
-                    rect: position,
+                    rectList: widget.markRectList,
                     shadow: BoxShadow(
-                        color:
-                            widget.bgColor.withOpacity(_opacityAnimation.value),
-                        blurRadius: 8.0),
-                    clipper: clipper,
+                      color:
+                          widget.bgColor.withOpacity(_opacityAnimation.value),
+                      blurRadius: widget.rectBlurRadius,
+                    ),
+                    clipperList: getClippers(),
                     coachMarkShape: widget.markShape,
                   ),
                 ),
@@ -367,40 +373,47 @@ class _CoachMarkClipper extends CustomClipper<Path> {
 ///This class makes edges of hole blurred.
 class _CoachMarkPainter extends CustomPainter {
   _CoachMarkPainter({
-    @required this.rect,
+    @required this.rectList,
     @required this.shadow,
-    this.clipper,
+    this.clipperList,
+    this.rectangleBorder = 0.3,
     this.coachMarkShape = BoxShape.circle,
   });
 
-  final Rect rect;
+  final List<Rect> rectList;
   final BoxShadow shadow;
-  final _CoachMarkClipper clipper;
+  final List<_CoachMarkClipper> clipperList;
   final BoxShape coachMarkShape;
+  final double rectangleBorder;
 
   void paint(Canvas canvas, Size size) {
-    final circle = rect.inflate(shadow.spreadRadius);
-    canvas.saveLayer(Offset.zero & size, Paint());
-    canvas.drawColor(shadow.color, BlendMode.dstATop);
-    var paint = shadow.toPaint()..blendMode = BlendMode.clear;
+    if (rectList.isNotEmpty && clipperList.isNotEmpty) {
+      canvas.saveLayer(Offset.zero & size, Paint());
+      canvas.drawColor(shadow.color, BlendMode.dstATop);
+      var paint = shadow.toPaint()..blendMode = BlendMode.clear;
 
-    switch (coachMarkShape) {
-      case BoxShape.rectangle:
-        canvas.drawRRect(
-            RRect.fromRectAndRadius(rect, Radius.circular(circle.width * 0.3)),
-            paint);
-        break;
-      case BoxShape.circle:
-      default:
-        canvas.drawCircle(circle.center, circle.longestSide * 0.5, paint);
-        break;
+      for (var i = 0; i < rectList.length; i++) {
+        final circle = rectList[i].inflate(shadow.spreadRadius);
+
+        switch (coachMarkShape) {
+          case BoxShape.rectangle:
+            canvas.drawRRect(
+                RRect.fromRectAndRadius(rectList[i],
+                    Radius.circular(circle.width * rectangleBorder)),
+                paint);
+            break;
+          case BoxShape.circle:
+          default:
+            canvas.drawCircle(circle.center, circle.longestSide * 0.5, paint);
+            break;
+        }
+      }
+      canvas.restore();
     }
-
-    canvas.restore();
   }
 
   @override
-  bool shouldRepaint(_CoachMarkPainter old) => old.rect != rect;
+  bool shouldRepaint(_CoachMarkPainter old) => old.rectList != rectList;
 
   @override
   bool shouldRebuildSemantics(_CoachMarkPainter oldDelegate) => false;
