@@ -44,7 +44,7 @@ class _FriendsListPageState extends State<FriendsListPage> {
 
   Future<void> _loadFriends() async {
     http.Response response =
-        await http.get('https://randomuser.me/api/?results=5');
+        await http.get(Uri.parse('https://randomuser.me/api/?results=5'));
 
     setState(() {
       _friends = Friend.allFromResponse(response.body);
@@ -205,7 +205,7 @@ class _FriendsListPageState extends State<FriendsListPage> {
 
   Future<Friend> _loadRandomFriend() async {
     http.Response response =
-        await http.get('https://randomuser.me/api/?results=1');
+        await http.get(Uri.parse('https://randomuser.me/api/?results=1'));
     var friends = Friend.allFromResponse(response.body);
     return friends.first;
   }
